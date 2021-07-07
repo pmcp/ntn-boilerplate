@@ -1,9 +1,12 @@
 ---
 category: animals
-title: Placeholder Bears
-description: Necessary to show how a project with the category Animals is used
+title: Test Project
+description: Necessary to show how a project with the category test is used
 cover: https://placebear.com/400/200
-gallery: ['https://placebear.com/g/800/400', 'https://placebear.com/600/600']
+gallery:
+  - https://placebear.com/g/800/400
+  - https://placebear.com/600/600
+sheet: 10zJ_VDsd6fwBUidoQFVipn6oykwfNugdfNo8AQ1pKLU
 ---
 
 It is easy to write **markdown**-*enabled* content like this placeholder text, with support for images.
