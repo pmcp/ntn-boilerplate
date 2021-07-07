@@ -1,8 +1,8 @@
 ---
 category: animals
 title: Adreswijziging
-description: Used when it is necessary to take up space, to let viewers
-  understand that they should provide their own content
+description: Een adreswijzing kan op verschillende manieren, aan het loket, via
+  telefoon of online. We onderzoeken de twee laatste opties in deze missie.
 cover: https://placekitten.com/400/200
 gallery:
   - https://placekitten.com/g/800/400
