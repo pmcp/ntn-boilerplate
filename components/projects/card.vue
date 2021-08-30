@@ -114,9 +114,9 @@
 
         <div class="flex-shrink-0" v-if="videoReady">
           <youtube
-            
             class="embed-container"
             :video-id="action.session.videoId"
+            @ready="ready"
             :player-vars="{ start: action.session.videoStartTime }"
           ></youtube>
         </div>
@@ -293,7 +293,8 @@ export default {
   data: function () {
     return {
       action: null,
-      videoReady: false
+      videoReady: false,
+      player: null
     };
   },
   watch: {
@@ -308,15 +309,21 @@ export default {
   //   VueHtml2pdf,
   // },
   methods: {
+    ready (player) {
+      this.player = player
+      this.isLoaded = true
+    },
     // generateReport() {
     //   this.$refs.html2Pdf.generatePdf();
     // },
     parseData(entry) {
+      this.action = null;
       this.videoReady = false
       // Using vue-youtube-embed to get id and time (https://github.com/kaorun343/vue-youtube-embed)
       
       const videoId = getIdFromURL(entry['Moment Video']);
-      const videoStartTime = getTimeFromURL(entry['Moment Beschrijving']);
+      const videoStartTime = getTimeFromURL(entry['Moment Video']);
+      console.log(videoStartTime)
       // console.log(entry);
    const action = {
      id: entry.Id,
@@ -364,7 +371,10 @@ export default {
         // 'email': entry.gsx$.$t,
       },
    };
+
       this.action = action;
+      if(this.player) this.player.target.seekTo(this.action.session.videoStartTime)
+
       this.videoReady = true;
       
       // this.actions.push(action);
