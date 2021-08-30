@@ -49,6 +49,7 @@
                         <div class="flex py-4">
                           
                           <div
+                            v-if="Observaties[c-1]"
                           class="container mx-auto max-w-xl text-left text-sm text-gray-600"
                           
                         >
