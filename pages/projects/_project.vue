@@ -41,7 +41,7 @@
                   </p>
                   <ul class="divide-y divide-gray-200">
                     <li v-for="(c, key) in t.cards" :key="`card-${c}`">
-                      
+
                       <button
                         @click="setActiveCard(c-1)"
                         class="block hover:bg-gray-50 w-full"
@@ -52,7 +52,9 @@
                           class="container mx-auto max-w-xl text-left text-sm text-gray-600"
                           
                         >
-                          {{ Observaties[c-1].Opmerking }}
+
+                            <span v-if="Observaties[c].Opmerking">{{ Observaties[c].Opmerking }}</span>
+                            <span v-else>{{ Observaties[c]['Moment beschrijving'] }}</span>
                         </div>
                           
                           <div>
@@ -144,17 +146,15 @@ export default {
       getSheet: 'sheets/getSheet',
     }),
     setActiveCard(id) {
-      console.log(id)
-      
-      console.log(this.Observaties)
       this.activeCard = this.Observaties[id];
+      console.log(this.activeCard)
     },
   },
   mounted() {
     // this.getPhases(this.post.sheet)
     // this.getObservations(this.post.sheet)
-    this.getSheet({ spreadSheetId: this.post.sheet, sheet: 'Fases' })
-    this.getSheet({ spreadSheetId: this.post.sheet, sheet: 'Observaties' })
+    this.getSheet({ spreadSheetId: this.post.sheet, sheet: '05.Fases' })
+    this.getSheet({ spreadSheetId: this.post.sheet, sheet: '08.Observaties' })
     // axios.get(this.post.sheet).then((response) => {
     //   // Get Phases
     //   console.log(response)

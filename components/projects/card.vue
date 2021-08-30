@@ -314,9 +314,15 @@ export default {
     parseData(entry) {
       this.videoReady = false
       // Using vue-youtube-embed to get id and time (https://github.com/kaorun343/vue-youtube-embed)
-      
-      const videoId = getIdFromURL(entry['Moment Video']);
-      const videoStartTime = getTimeFromURL(entry['Moment Beschrijving']);
+      console.log(entry['Video'])
+      let videoId = null
+      let videoStartTime = null
+      if(entry['Video']) {
+        videoId = getIdFromURL(entry['Video']);
+        videoStartTime = getTimeFromURL(entry['Moment Beschrijving']);
+      }
+
+
       // console.log(entry);
    const action = {
      id: entry.Id,
@@ -344,7 +350,7 @@ export default {
        videoId: videoId,
        videoStartTime: videoStartTime,
        date: entry['Sessie Datum'],
-       
+
      },
      user: {
        name: entry['Gebruiker Naam'],

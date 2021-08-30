@@ -9,13 +9,15 @@ export const state = () => ({
 export const mutations = {
   setSheet(state, {id, content}) {
     console.log(content)
-    state[id] = content
+
+    state[id.slice(3)] = content
   }
 }
 
 export const actions = {
   
   async getSheet({ state, dispatch, commit }, { spreadSheetId, sheet }) {
+    console.log(spreadSheetId, sheet)
     try {
       const resultSheet = await fetch('/.netlify/functions/get-sheet', {
         method: 'POST',
@@ -52,10 +54,13 @@ export const getters = {
     if(state.Observaties == undefined) return null;
     if(state.Observaties == null) return null;
     const ObservationsPerTopic = state.Observaties.reduce((acc, observation) => {
-      
-      if(observation['Moment Beschrijving'] == undefined) return acc;
-      const topic = observation['Topic naam']
-      
+      // console.log(observation)
+
+      if(observation['Moment beschrijving'] == undefined || observation['Moment beschrijving'] == '') return acc;
+
+      let topic = 'Geen categorie'
+      if(observation['Topic naam'] != undefined) topic = observation['Topic naam']
+
       if(acc[topic]) {
         acc[topic].cards = [...acc[topic].cards, observation.Id * 1]
       } else {
@@ -70,7 +75,7 @@ export const getters = {
       return acc
       
     }, {})
-    
+    console.log(ObservationsPerTopic)
     return ObservationsPerTopic
   },
   

@@ -16,22 +16,16 @@ if (!process.env.NETLIFY) {
 	exports.handler = async function(event, context) {
 	
 	  const data = JSON.parse(event.body)
-	  
+		console.log(data)
 	  const spreadSheetId = data.spreadSheetId
 	  const sheetId = data.sheet
 	 
 	 console.log(sheetId)
 	  
 	  const sheet = await sheetAPI.getSheet(spreadSheetId, sheetId)
-	  console.log(sheet)
+
 	  const rows = await sheetAPI.getRows(sheet)
-	  // console.log(rows)
-	  
-	  
-	  // const filteredRows - 
-	  // console.log(sheetId, rows)
-	  
-	  
+
 	  
 	  return {
 		statusCode: 200,
