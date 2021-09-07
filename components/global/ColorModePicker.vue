@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      color: COLOR_MODE_FALLBACK
+      color: 'light'
     }
   },
   watch: {
@@ -43,14 +43,14 @@ export default {
 
       switch (this.$colorMode.preference) {
         case 'light':
-          return (this.$colorMode.preference = 'dark')
+          return (this.$colorMode.preference = 'light')
         case 'dark':
           return (this.$colorMode.preference = 'light')
         case 'system':
-          return (this.$colorMode.preference = this.$colorMode.value === 'dark' ? 'light' : 'dark')
+          return (this.$colorMode.preference = this.$colorMode.value === 'dark' ? 'light' : 'light')
 
         default:
-          return (this.$colorMode.preference = COLOR_MODE_FALLBACK)
+          return (this.$colorMode.preference = 'light')
       }
     }
   }

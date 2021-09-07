@@ -137,8 +137,8 @@ module.exports = {
   },
   colorMode: {
     classSuffix: '',
-    preference: 'system', // default value of $colorMode.preference
-    fallback: COLOR_MODE_FALLBACK, // fallback value if not system preference found
+    preference: 'light', // default value of $colorMode.preference
+    fallback: 'light', // fallback value if not system preference found
     componentName: 'ColorScheme',
     cookie: {
       options: {
