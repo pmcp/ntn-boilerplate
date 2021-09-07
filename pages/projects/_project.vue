@@ -16,9 +16,7 @@
             {{ post.description }}
             
             
-            <p>
-            
-            
+
           </p>
         </div>
 
@@ -40,7 +38,7 @@
                     {{ t.description }}
                   </p>
                   <ul class="divide-y divide-gray-200">
-                    <li v-for="(c, key) in t.cards" :key="`card-${c}`">
+                    <li v-for="(c, key) in t.cards" :key="`card-${key}`">
                       
                       <button
                         @click="setActiveCard(c-1)"
@@ -86,7 +84,7 @@
             
               class="bg-white w-full sm:overflow-hidden shadow p-5 rounded bg-white"
             >
-              <card :active-card="activeCard" :phases="Fases"></card>
+              <card :active-card="activeCard" :phases="Fases" :spreadSheetId="post.sheet"></card>
             </div>
           </div>
         </div>

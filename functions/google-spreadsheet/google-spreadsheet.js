@@ -38,25 +38,18 @@ module.exports = {
       return temp
     })
   },
-  getRow: async rowId => {
+  getRow: async (sheet, rowId) => {
     const rows = await sheet.getRows()
     const row = { ...rows[rowId], rowId: rowId }
     return rows[rowId]
   },
   addRow: async data => {
-    // Add the different mailing triggers, should not be hard coded
-    const triggers = {
-      inschrijving: 0,
-      betaling: 0,
-      herinnering: 0
-    }
-
-    data = { ...data, ...triggers }
     const addedRow = await sheet.addRow(data)
     return addedRow._rowNumber - 1 // return row number (minus the header row)
   },
-  updateRow: async data => {
+  updateRow: async (sheet, data) => {
     console.log('gonna update row')
+
     const rows = await sheet.getRows()
     console.log('All Rows', rows)
     const { rowId, ...objectForUpdate } = data
@@ -67,7 +60,7 @@ module.exports = {
       selectedRow[k] = v
     })
     await selectedRow.save()
-    return
+    return selectedRow
   },
   deleteRow: async rowId => {
     const rows = await sheet.getRows()

@@ -1,56 +1,16 @@
 <template>
   <div>
+
     <div v-if="action">
-      <!-- <vue-html2pdf
-        :show-layout="false"
-        :float-layout="true"
-        :enable-download="false"
-        :preview-modal="true"
-        filename="observationcard"
-        pdf-content-width="770px"
-        :pdf-quality="2"
-        :manual-pagination="false"
-        pdf-format="a4"
-        pdf-orientation="portrait"
-        @progress="onProgress($event)"
-        @hasStartedGeneration="hasStartedGeneration()"
-        @hasGenerated="hasGenerated($event)"
-        ref="html2Pdf"
-      >
-        <section slot="pdf-content" style="font-family: arial">
-          <section>
-            <h2
-              class="text-lg w-full text-white rounded p-5"
-              style="background-color: #009de0"
-            >
-              Observatie: <span>{{ action.action.text }}</span>
-            </h2>
 
-            <h2 class="text-xl font-bold">Context</h2>
-            <p class="text-md text-gray-500 py-2">
-              {{ action.action.context }}
-            </p>
-          </section>
-        </section>
-      </vue-html2pdf> -->
-      <!-- <button @click="generateReport">PDF</button> -->
+
       <div class="flex flex-col overflow-hidden container mx-auto">
-        <!-- <div class="flex-1 bg-white p-6 flex flex-col justify-between">
-          <div class="flex-1">
-            <h1
-              class="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-4xl"
-            >
-              Missie: {{ action.mission.title }}
-            </h1>
-            <p class="mt-3 max-w-2xl text-xl text-gray-500 sm:mt-4">
-              {{ action.mission.descr }}
-            </p>
-          </div>
-        </div> -->
 
+
+        <FormulateForm v-model="actionForm" @submit="handleForm">
         <div
-          class="flex-1  p-6 flex flex-col justify-between rounded"
-          style="background-color: #009de0"
+          class="flex-1  p-6 flex flex-col justify-between rounded border-2 "
+          style="border-color:#009de0; background-color: #FAFDFF"
         >
           <div class="flex-1 flex flex-col justify-between font-light ">
             <div class="flex-1">
@@ -65,47 +25,77 @@
 
           <div class="flex-1 pt-4 flex flex-col justify-between font-light">
             <div class="flex-1">
-              <p class="text-xl">
-                <span class="font-semibold">Actie: </span>
-                <span
-                  class="text-md py-2 italic"
-                  v-if="action.action.text.length > 0"
-                  >{{ action.action.text }}</span
+
+
+
+                <FormulateInput
+                  type="textarea"
+                  name="text"
                 >
-                <span v-else class="text-md py-2 italic">Niet bepaald</span>
-              </p>
+                  <template #label="{ id }">
+                    <div>
+                    <span class="font-semibold">Actie: </span>
+
+            </div>
+                  </template>
+                </FormulateInput>
+<!--                <span v-else class="text-md py-2 italic">Niet bepaald</span>-->
+
             </div>
           </div>
 
           <div class="flex-1 pt-4 flex flex-col justify-between font-light">
             <div class="flex-1">
-              <p class="text-xl">
-                <span class="font-semibold">Toegewezen aan: </span>
-                <span
-                  class="text-md py-2 italic"
-                  v-if="action.owner.name.length > 0"
-                  >{{ action.owner.name }}</span
-                >
-                <span v-else class="text-md py-2 italic">Niet bepaald</span>
-              </p>
+
+              <FormulateInput
+                type="text"
+                name="owner"
+              >
+                <template #label="{ id }">
+                  <div>
+                    <span class="font-semibold">Toegewezen aan: </span>
+
+                  </div>
+                </template>
+              </FormulateInput>
+
+
+
+
             </div>
           </div>
 
           <div class="flex-1 pt-4 flex flex-col justify-between font-light">
             <div class="flex-1">
-              <p class="text-xl">
-                <span class="font-semibold">Status: </span>
-                <span
-                  class="text-md py-2 italic"
-                  v-if="action.owner.status.length > 0"
-                  >{{ action.owner.status }}</span
-                >
-                <span v-else class="text-md py-2 italic">Niet bepaald</span>
-              </p>
+
+
+              <FormulateInput
+                type="text"
+                name="owner"
+              >
+                <template #label="{ id }">
+                  <span class="font-semibold">Status: </span>
+                </template>
+              </FormulateInput>
+
             </div>
           </div>
+          <FormulateInput
+            type="submit"
+            :disabled="status != 0"
+            :wrapper-class="['btn']"
+          >
+            <template>
+              <div>
+                <span v-if="status === 0">Opslaan</span>
+                <span v-else-if="status === 1">Even geduld...</span>
+                <span v-else-if="status === 2">Verstuurd!</span>
+              </div>
+            </template>
+          </FormulateInput>
+
         </div>
-
+        </FormulateForm>
         <div class="flex-1 bg-white p-6 flex flex-col justify-between">
           <p class="text-xl text-gray-900">
             <span class="font-semibold">Context</span>
@@ -272,11 +262,18 @@
 <!-- https://docs.google.com/spreadsheets/d/e/2PACX-1vTqMPRdrHj-Gdye1pjLYDBULmRs58bHy3U_4gO7_nL7DWgGrJ_m7ew0C2j48Uyy-8Jgpsok9StF1KBu/pubhtml -->
 <script>
 import { getIdFromURL, getTimeFromURL } from 'vue-youtube-embed';
+import { mapActions } from 'vuex'
 
 // import VueHtml2pdf from 'vue-html2pdf';
 export default {
   name: 'Card',
   props: {
+    spreadSheetId: {
+      type: String,
+      default: function () {
+        return '';
+      },
+    },
     activeCard: {
       type: Object,
       default: function () {
@@ -294,21 +291,29 @@ export default {
     return {
       action: null,
       videoReady: false,
-      player: null
+      player: null,
+      actionForm: {}
     };
   },
   watch: {
     activeCard: function (newVal) {
-      // Clear Card
-      
-      // Set new data
+
       this.parseData(newVal);
     },
   },
-  // components: {
-  //   VueHtml2pdf,
-  // },
+  computed: {
+    status() {
+      return this.$store.state.sheets.status
+    }
+  },
   methods: {
+    ...mapActions({
+      sendFormData: 'sheets/sendFormData',
+    }),
+    handleForm(data){
+
+      this.sendFormData({spreadSheetId: this.spreadSheetId, actionData: data, activeCard: this.activeCard})
+    },
     ready (player) {
       this.player = player
       this.isLoaded = true
@@ -316,6 +321,8 @@ export default {
     // generateReport() {
     //   this.$refs.html2Pdf.generatePdf();
     // },
+
+
     parseData(entry) {
       this.action = null;
       this.videoReady = false
@@ -376,7 +383,14 @@ export default {
       if(this.player) this.player.target.seekTo(this.action.session.videoStartTime)
 
       this.videoReady = true;
-      
+
+
+      //Set form
+      this.actionForm = {
+        text: this.action.action.text,
+        owner: this.action.owner.name,
+        status: this.action.owner.status
+      }
       // this.actions.push(action);
 
       // });

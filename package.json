@@ -19,6 +19,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@braid/vue-formulate": "^2.5.2",
     "@nuxt/content": "^1.14.0",
     "axios": "^0.21.1",
     "cross-env": "^5.2.0",
@@ -27,8 +28,8 @@
     "vue-youtube-embed": "^2.2.2"
   },
   "devDependencies": {
-    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/color-mode": "^2.0.10",
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/svg": "^0.1.12",
     "@nuxtjs/tailwindcss": "^4.2.0",
